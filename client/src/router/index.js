@@ -4,6 +4,9 @@ import Index from '@/components/index'
 import Login from '@/components/login'
 import Signup from '@/components/signup'
 import Confirm from '@/components/confirm'
+import boardWite from '@/components/board/board-write'
+import boardView from '@/components/board/board-view'
+import Board from '@/components/board/board'
 
 Vue.use(Router)
 
@@ -29,6 +32,21 @@ export default new Router({
       path: '/confirmEmail',
       name: 'confirm',
       component: Confirm
+    },
+    {
+      path: '/board/write',
+      name: 'boardwrite',
+      component: boardWite
+    },
+    {
+      path: '/board/view/:id',
+      name: 'boardview',
+      component: boardView
+    },
+    {
+      path: '/board',
+      name: 'board',
+      component: Board
     }
   ]
 })

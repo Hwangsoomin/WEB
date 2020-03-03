@@ -4,6 +4,7 @@
         <div class="user">
             <input type="button" class="btn" onclick="location.href='/login'" value="LOGIN"/>
             <input type="button" class="btn" onclick="location.href='/signup'" value="SIGNUP"/>
+            <input type="button" class="btn" onclick="location.href='/board'" value="게시판" />
             <button @click="logOut">LOGOUT</button>
         </div>
     </div>
@@ -20,6 +21,7 @@ export default {
     created(){
         this.$http.get('/api/look/email')
         .then((res)=>{
+            console.log(res.data);
             this.email = res.data;
         })
     },
