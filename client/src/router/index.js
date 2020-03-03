@@ -7,6 +7,7 @@ import Confirm from '@/components/confirm'
 import boardWite from '@/components/board/board-write'
 import boardView from '@/components/board/board-view'
 import Board from '@/components/board/board'
+import boardEdit from '@/components/board/board-edit'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/board',
       name: 'board',
       component: Board
+    },
+    {
+      path: '/board/edit/:id',
+      name: 'boardEdit',
+      component: boardEdit
     }
   ]
 })

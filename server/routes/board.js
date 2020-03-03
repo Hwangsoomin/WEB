@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Board = require('../models/board');
+const mongoose = require('mongoose');
 
 router.get('/', function (req, res) {
     console.log('드러왔니?');
@@ -16,20 +17,9 @@ router.get('/view/:id', function (req, res) {//params query
     console.log('view 들어옴');
     Board.findOne({ _id: req.params.id }, function (err, post) {
         if (err) console.log(err);
-        if (req.user && req.user.email===post.auth)res.send(post);
-        else if(req.user && req.user.email!==post.auth)res.send(post);
-        else res.send(post);
+        res.send(post);
     });
 });
-
-/*router.get('/write',function(req, res){
-    if(req.user){
-        res.render('board/board-write',{isLogin:"Logout"});
-    }
-    else{
-        res.send('<script type="text/javascript">alert("로그인한 사용자만 작성할 수 있습니다."); window.location="/login"; </script>');
-    }
-});*/
 
 router.post('/write', function (req, res) {
     Board.find({ title: req.body.title })
@@ -58,6 +48,17 @@ router.post('/write', function (req, res) {
                     });
             }
         });
+});
+
+router.post('/edit/:id', function(req, res){
+    console.log("id는" + req.params.id);
+    console.log(req.body.title);
+    console.log(req.body.content);
+    Board.findOneAndReplace({_id : req.params.id},
+        {$set:{title:req.body.title, date:new Date(), content:req.body.content}}, function(err, post){
+            if(err) console.log(err);
+            res.send('게시글이 수정되었습니다!');
+        })
 });
 
 module.exports = router;

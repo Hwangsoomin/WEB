@@ -6,7 +6,9 @@
         <span>{{post.title}}</span><br/>
         <span>{{post.auth}}<span><span>{{post.date}}</span><br/>
         <span>{{post.content}}</span><br/>
-        <button class="btn" v-show="edit">EDIT!</button>
+        <button class="btn" v-if="edit" >
+            <router-link :to="{ path:'/board/edit/'+post._id}">EDIT</router-link>
+        </button>
     </div>
 </template>
 
@@ -16,14 +18,13 @@ export default {
         var id = this.$route.params.id;
         this.$http.get(`/api/board/view/${id}`)
         .then((res) => {
-            console.log(res.data);
             this.post = res.data;
-        }),
-        this.$http.get('/api/look/email')
-        .then((res) => {
-            this.email = res.data;
-            if(this.email === this.post.auth) this.edit = true;
-            else this.edit = false;
+            this.$http.get('/api/look/email')
+            .then((res) => {
+                this.email = res.data;
+                if(this.email === this.post.auth) this.edit = true;
+                else this.edit = false;
+            });
         });
     },
     data(){
@@ -32,6 +33,11 @@ export default {
             email: '',
             edit: ''
         }
-    }
+    }/*,
+    methods:{
+        Edit(){
+            this.$http.get('')
+        }
+    }*/
 }
 </script>

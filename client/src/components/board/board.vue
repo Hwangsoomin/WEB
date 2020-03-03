@@ -1,5 +1,6 @@
 <template>
     <div>
+        <button class="btn"><router-link :to="{ path:'/board/write'}">글쓰기</router-link></button>
         <div v-for="post in posts" v-bind:key="post._id">
             <li>
                 <span v-if="post.category==='fr'">자유</span>

@@ -3,9 +3,9 @@
         <strong>{{message}}</strong>
         <form action="/api/login" method="post">
             <label for="email">E-MAIL</label>
-            <input name="email" type="email" required />
+            <input name="email" type="email" required /><br/>
             <label for="password">PASSWORD</label>
-            <input name="password" type="password" required/>
+            <input name="password" type="password" required/><br/>
             <button class="btn">LOGIN!</button>
         </form>
     </div>
