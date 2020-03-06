@@ -1,18 +1,14 @@
 <template>
     <div>
-        <form v-on:submit.prevent="onSubmit">
-            <div>
-                <span v-if="post.category==='fr'">자유</span>
-                <span v-if="post.category==='qu'">질문</span>
-            </div>
-            <div>
-                <input v-model="post.title" type="text" id="post.title" ref="post.title">
-            </div>
-            <div>
-                <textarea v-model="post.content" id="post.content" ref="post.content"></textarea>
-            </div>
-            <button type="submit">UPLOAD!</button>
-        <form>
+        <span v-if="Post.category==='fr'">자유</span>
+        <span v-if="Post.category==='qu'">질문</span><br/>
+        <label>TITLE
+            <input v-model.trim="Post.title" type="text">
+        </label><br/>
+        <label>CONTENT
+            <textarea v-model.trim="Post.content"></textarea>
+        </label><br/>
+            <button type="submit" v-on:click="onSubmit">UPLOAD!</button>
     </div>
 </template>
 
@@ -25,9 +21,8 @@ export default {
                 this.email = res.data;
                 this.$http.get(`/api/board/view/${id}`)
                 .then((res) => {
-                    console.log('왜 안들어가');
-                    this.post = res.data;
-                    if(this.email !== this.post.auth){
+                    this.Post = res.data;
+                    if(this.email !== this.Post.auth){
                         alert('게시글을 수정할 권한이 없습니다.');
                         this.$router.push('/board');
                     }
@@ -36,32 +31,30 @@ export default {
     },
     data(){
         return {
-            post: '',
+            Post: '',
             email: ''
         }
     },
     methods: {
-        onSubmit(){
-            var title = this.$refs.post.title.value;
-            var content = this.$refs.post.content.value;
-            console.log('에디트 들어옴');
-            this.$http.post(`/api/board/edit/${post._id}`,{
-                title: title,
-                content: content
-            })
+        onSubmit: function(event){
+            if(!this.Post.title){
+                alert('제목을 작성해주세요.');
+                return;
+            }
+            if(!this.Post.content){
+                alert('내용을 작성해주세요.');
+                return;
+            }
+            const formData = {
+                title: this.Post.title,
+                content: this.Post.content
+            }
+            this.$http.put(`/api/board/edit/${this.Post._id}`,formData)
             .then((res) => {
                 alert(res.data);
-                this.$router.push('/board/view/'+this.post._id);
+                this.$router.push('/board/view/'+this.Post._id);
             })
         }
     }
-    /*actions: {
-        submitBoard: function() {
-            this.$http.post(`/api/board/edit/${this.post._id}`,{
-                content : this.content,
-                title: this.title
-            })
-        }
-    }*/
 }
 </script>

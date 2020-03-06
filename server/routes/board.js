@@ -50,11 +50,13 @@ router.post('/write', function (req, res) {
         });
 });
 
-router.post('/edit/:id', function(req, res){
+router.put('/edit/:id', function(req, res){
+    console.log(req.body);
     console.log("id는" + req.params.id);
+    console.log('edit 성공쓰???');
     console.log(req.body.title);
     console.log(req.body.content);
-    Board.findOneAndReplace({_id : req.params.id},
+    Board.findOneAndUpdate({_id : req.params.id},
         {$set:{title:req.body.title, date:new Date(), content:req.body.content}}, function(err, post){
             if(err) console.log(err);
             res.send('게시글이 수정되었습니다!');
