@@ -3,12 +3,22 @@
         <span v-if="post.category==='fr'">자유</span>
         <span v-if="post.category==='qu'">질문</span>
         <br/>
-        <span>{{post.title}}</span><br/>
-        <span>{{post.auth}}<span><span>{{post.date}}</span><br/>
-        <span>{{post.content}}</span><br/>
+        <span>제목: {{post.title}}</span><br/>
+        <span>작성자: {{post.auth}}<span>&nbsp;&nbsp;<span>날짜: {{post.date}}</span><br/>
+        <span>내용: {{post.content}}</span><br/>
         <button class="btn" v-if="edit" >
             <router-link :to="{ path:'/board/edit/'+post._id}">EDIT</router-link>
         </button>
+        <button class="btn" v-if="edit" @click="del=true">DELETE
+        </button>
+        <v-card-text>
+            <v-card-text v-if="del">
+                <v-alert><h4>정말 삭제 하시겠습니까?</h4>
+                <button v-on:click="Delete">확인</button>
+                <button @click="del=false">취소</button>
+                </v-alert>
+            </v-card-text>
+        </v-card-text>
     </div>
 </template>
 
@@ -31,13 +41,19 @@ export default {
         return{
             post : '',
             email: '',
-            edit: ''
+            edit: '',
+            del: false
         }
-    }/*,
-    methods:{
-        Edit(){
-            this.$http.get('')
+    },
+    methods: {
+        Delete: function(event){
+            var id = this.$route.params.id;
+            this.$http.delete(`/api/board/delete/${id}`)
+            .then((res) => {
+                alert(res.data);
+                this.$router.push('/board');
+            })
         }
-    }*/
+    }
 }
 </script>

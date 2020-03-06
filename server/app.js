@@ -59,7 +59,7 @@ app.use('/api/logout',require('./routes/logout'));
 app.use('/api/signup',require('./routes/signup'));
 app.use('/api/confirmEmail',require('./routes/confirm'));
 app.use('/api/board',require('./routes/board'));
-
+app.use('/api/confirm1', require('./routes/confirm1'));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

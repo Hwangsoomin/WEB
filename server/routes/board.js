@@ -63,4 +63,10 @@ router.put('/edit/:id', function(req, res){
         })
 });
 
+router.delete('/delete/:id', function(req, res){
+    Board.deleteOne({_id: req.params.id}, function(err, obj){
+        if(err)throw err;
+        res.send('해당 게시글이 삭제되었습니다.');
+    })
+})
 module.exports = router;

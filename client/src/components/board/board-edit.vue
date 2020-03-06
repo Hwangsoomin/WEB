@@ -2,10 +2,10 @@
     <div>
         <span v-if="Post.category==='fr'">자유</span>
         <span v-if="Post.category==='qu'">질문</span><br/>
-        <label>TITLE
+        <label>제목:
             <input v-model.trim="Post.title" type="text">
         </label><br/>
-        <label>CONTENT
+        <label>내용:
             <textarea v-model.trim="Post.content"></textarea>
         </label><br/>
             <button type="submit" v-on:click="onSubmit">UPLOAD!</button>
