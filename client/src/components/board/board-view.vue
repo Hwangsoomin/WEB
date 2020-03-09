@@ -19,6 +19,8 @@
                 </v-alert>
             </v-card-text>
         </v-card-text>
+        <h4>Comments</h4>
+
     </div>
 </template>
 
@@ -26,15 +28,16 @@
 export default {
     created(){
         var id = this.$route.params.id;
-        this.$http.get(`/api/board/view/${id}`)
+        this.$http.get(`/api/board/view/${id}`)//해당 id의 게시글 가져오기
         .then((res) => {
             this.post = res.data;
-            this.$http.get('/api/look/email')
+            this.$http.get('/api/look/email')//지금 현재 이메일가져오기
             .then((res) => {
                 this.email = res.data;
                 if(this.email === this.post.auth) this.edit = true;
                 else this.edit = false;
             });
+            //this.$http.get('/api/')
         });
     },
     data(){
@@ -42,7 +45,8 @@ export default {
             post : '',
             email: '',
             edit: '',
-            del: false
+            del: false,
+            comments: []
         }
     },
     methods: {

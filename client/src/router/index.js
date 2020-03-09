@@ -8,6 +8,8 @@ import boardWite from '@/components/board/board-write'
 import boardView from '@/components/board/board-view'
 import Board from '@/components/board/board'
 import boardEdit from '@/components/board/board-edit'
+import myNInfor from '@/components/information/nicknameInfo'
+import myPInfo from '@/components/information/passInfo'
 
 Vue.use(Router)
 
@@ -53,6 +55,16 @@ export default new Router({
       path: '/board/edit/:id',
       name: 'boardEdit',
       component: boardEdit
+    },
+    {
+      path: '/myinfo/nick',
+      name: 'myNInfo',
+      component: myNInfor
+    },
+    {
+      path: '/myinfo/pass',
+      name: 'myPInfo',
+      component: myPInfo
     }
   ]
 })
