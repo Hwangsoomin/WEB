@@ -11,6 +11,7 @@ import boardEdit from '@/components/board/board-edit'
 import myNInfor from '@/components/information/nicknameInfo'
 import myPInfo from '@/components/information/passInfo'
 
+//import signUp from '@/components/Signup'
 Vue.use(Router)
 
 export default new Router({
@@ -65,6 +66,11 @@ export default new Router({
       path: '/myinfo/pass',
       name: 'myPInfo',
       component: myPInfo
-    }
+    },
+    /*{
+      path: '/signUp',
+      name: 'signUp',
+      component: signUp
+    }*/
   ]
 })

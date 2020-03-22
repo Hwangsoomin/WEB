@@ -3,7 +3,7 @@
         <span class="title">Hello {{email}}</span>
         <div class="user">
             <input type="button" class="btn" onclick="location.href='/login'" value="LOGIN"/>
-            <input type="button" class="btn" onclick="location.href='/signup'" value="SIGNUP"/>
+            <input type="button" class="btn" onclick="location.href='/signUp'" value="SIGNUP"/>
             <input type="button" class="btn" onclick="location.href='/board'" value="게시판" />
             <div>
                 <div v-if="infoF===false">
@@ -33,7 +33,7 @@ export default {
         .then((res)=>{
             console.log(res.data);
             this.email = res.data;
-        })
+        });
     },
     methods: {
         logOut(){

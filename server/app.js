@@ -17,7 +17,10 @@ var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 
 let url = "mongodb://localhost:27017/dalhav";
-mongoose.connect(url,{useNewUrlParser: true});
+mongoose.connect(url,{
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 var store = new MongoDBStore({
   uri: url,
@@ -40,6 +43,7 @@ app.use(passport.session());
 app.use(flash());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(require('connect-history-api-fallback')());
+//app.use(multer({dest:"../upload/"}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
