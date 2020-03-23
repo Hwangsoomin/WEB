@@ -4,7 +4,6 @@ const Board = require('../models/board');
 const mongoose = require('mongoose');
 
 router.get('/', async function (req, res) {
-    console.log('들어왔니?여긴 보드');
     var page = Math.max(1, parseInt(req.query.page));
     var limit = Math.max(1, parseInt(req.query.limit));
     page = !isNaN(page) ? page : 1;

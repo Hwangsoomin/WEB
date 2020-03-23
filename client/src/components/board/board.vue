@@ -81,7 +81,6 @@ export default {
     created() {
         this.$http.get(`/api${this.$route.fullPath}`)
         .then((res) => {
-            console.log(res.data);
             this.posts = res.data.posts;
             this.currentPage = res.data.currentPage;
             this.maxPage = res.data.maxPage;
@@ -93,11 +92,6 @@ export default {
             this.p1 = this.currentPage - 2;
             this.p2 = this.currentPage + 2;
             this.pmaxPage = this.maxPage - 1;
-            console.log(this.currentPage);
-            console.log(this.maxPage);
-            console.log(this.limit);
-            console.log(this.previousBtnEnabled);
-            console.log(this.nextBtnEnabled);
         })
     },
     data(){
@@ -126,7 +120,6 @@ export default {
     },
     methods: {
         subS: function(event){
-            console.log('들어왔니서브에스');
             if(this.searchType.length < 1)this.flag = true;
             else if(this.searchText.length < 3)this.flag = true;
             else this.$router.push(`/board?searchType=${this.searchType}&searchText=${this.searchText}`);
