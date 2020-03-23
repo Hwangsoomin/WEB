@@ -1,11 +1,12 @@
 <template>
     <div>
-        <table class="board-table table table-sm border-bottom">
+        <table align="center">
             <thead class="thead-light">
                 <tr>
+                    <th scope="col">Category</th>
                     <th scope="col">Title</th>
-                    <th scope="col" class="author">Author</th>
-                    <th scope="col" class="date" >Date</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Date</th>
                 </tr>
             </thead>
 
@@ -29,28 +30,48 @@
                     </td>
                 </tr>
             </tbody>
-
         </table>
+
         <div class="col-2">
             <a class="btn btn-primary" href="/board/write">New</a>
         </div>
-            <button v-if="previousBtnEnabled" v-on:click="preP">
-                <router-link :to="{ path:'/board', query: {page: prePage,limit:limit}}">&laquo;</router-link>
-            </button>
-            <div v-for="i in maxPage" v-bind:key="i">
-                <div v-if="i===1||i===maxPage||(i>=p1&&i<=p2)">
-                    <button class="page-item"  v-if="i!==currentPage">
-                        <router-link :to="{ path:'/board?page='+i+'&limit='+limit}">{{i}}</router-link>
-                    </button>
-                    <button v-else>{{i}}</button>
+        <button v-if="previousBtnEnabled">
+            <router-link :to="{ path:'/board', query: {page: prePage,limit:limit}}">&laquo;</router-link>
+        </button>
+        <span v-for="i in maxPage" v-bind:key="i">
+            <span v-if="i===1||i===maxPage||(i>=p1&&i<=p2)">
+                <button class="page-item"  v-if="i!==currentPage">
+                    <router-link :to="{ path:'/board?page='+i+'&limit='+limit}">{{i}}</router-link>
+                </button>
+                <button v-else>{{i}}</button>
+            </span>
+            <span v-else-if="i===2||i===pmaxPage">
+                <button><a class="page-link">...</a></button>
+            </span>
+        </span>
+        <button v-if="nextBtnEnabled">
+            <router-link :to="{ path:'/board?page='+nextPage+'&limit='+limit}">&raquo;</router-link>
+        </button>
+        <div>
+            <label>Search</label>
+            <div>
+                <select v-model="searchType">
+                    <option disabled value="">Select one</option>
+                    <option>Title,Content</option>
+                    <option>Title</option>
+                    <option>Content</option>
+                </select>
+                <input minlength="3" type="text" name="searchText" v-model.trim="searchText">
+                <div>
+                    <button class="btn" v-on:click="subS">Search</button>
                 </div>
-                <div v-else-if="i===2||i===pmaxPage">
-                    <button><a class="page-link">...</a></button>
-                </div>
+                <v-card-text>
+                    <v-card-text v-if="flag">
+                    <v-alert><h4>검색대상을 선택하였는지, 검색할 내용이 3글자이상인지 확인하여주세요.</h4></v-alert>
+                    </v-card-text>
+                </v-card-text>
             </div>
-            <button v-if="nextBtnEnabled">
-                <router-link :to="{ path:'/board?page='+nextPage+'&limit='+limit}">&raquo;</router-link>
-            </button>
+        </div>
     </div>
 </template>
 
@@ -92,7 +113,10 @@ export default {
             pmaxPage: '',
             i: 0,
             nextPage: '',
-            prePage: ''
+            prePage: '',
+            searchType: '',
+            searchText: '',
+            flag: false
         }
     },
     watch:{
@@ -101,9 +125,12 @@ export default {
         }
     },
     methods: {
-        /*preP: function(event){
-            this.$router.push(`/board?page=${this.prePage}&limit=${this.limit}`);
-        }*/
+        subS: function(event){
+            console.log('들어왔니서브에스');
+            if(this.searchType.length < 1)this.flag = true;
+            else if(this.searchText.length < 3)this.flag = true;
+            else this.$router.push(`/board?searchType=${this.searchType}&searchText=${this.searchText}`);
+        }
     }
 }
 </script>

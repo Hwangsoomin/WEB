@@ -4,24 +4,24 @@ const Board = require('../models/board');
 const mongoose = require('mongoose');
 
 router.get('/', async function (req, res) {
-    console.log(req.query);
+    console.log('들어왔니?여긴 보드');
     var page = Math.max(1, parseInt(req.query.page));
     var limit = Math.max(1, parseInt(req.query.limit));
-    console.log(page);
-    console.log(limit);
     page = !isNaN(page) ? page : 1;
     limit = !isNaN(limit) ? limit : 10;
 
+    var searchQuery = createSearchQuery(req.query);
+
     var skip = (page - 1) * limit;
-    var count = await Board.countDocuments({});
+    var count = await Board.countDocuments(searchQuery);
     var maxPage = Math.ceil(count / limit);
-    var posts = await Board.find({})
+    var posts = await Board.find(searchQuery)
         .sort("-date")
         .skip(skip)
         .limit(limit)
         .exec();
 
-    res.send({ posts: posts, currentPage: page, maxPage: maxPage, limit: limit });
+    res.send({ posts: posts, currentPage: page, maxPage: maxPage, limit: limit, searchType: req.query.searchType, searchText: req.query.searchText });
 });
 
 router.get('/view/:id', function (req, res) {//params query
@@ -81,3 +81,21 @@ router.delete('/delete/:id', function (req, res) {
     })
 })
 module.exports = router;
+
+function createSearchQuery(queries){
+    var searchQuery ={};
+    if(queries.searchType && queries.searchText && queries.searchText.length >= 3){
+        console.log(queries.searchType);
+        var searchTypes = queries.searchType.toLowerCase().split(',');
+        var postQueries =[];
+        console.log(searchTypes);
+        if(searchTypes.indexOf('title')>=0){
+            postQueries.push({title:{$regex: new RegExp(queries.searchText,'i')}});
+        }
+        if(searchTypes.indexOf('content')>=0){
+            postQueries.push({content:{$regex: new RegExp(queries.searchText,'i')}});
+        }
+        if(postQueries.length>0)searchQuery = {$or:postQueries};
+    }
+    return searchQuery;
+}
