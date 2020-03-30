@@ -119,10 +119,10 @@ export default {
         }
     },
     methods: {
-        subS: function(event){
+        async subS(){
             if(this.searchType.length < 1)this.flag = true;
             else if(this.searchText.length < 3)this.flag = true;
-            else this.$router.push(`/board?searchType=${this.searchType}&searchText=${this.searchText}`);
+            else await this.$router.push(`/board?searchType=${this.searchType}&searchText=${this.searchText}`);
         }
     }
 }

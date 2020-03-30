@@ -24,7 +24,22 @@ router.get('/', async function (req, res) {
 });
 
 router.get('/view/:id', function (req, res) {//params query
-    console.log('view 들어옴');
+    /*console.log('들어옴 보트뷰');
+    var commentForm = req.flash('commentForm')[0] || {_id: null, form: {}};
+    var commentError = req.flash('commentError')[0] || {_id: null, parentComment: null, errors: {}};
+    Promise.all([
+        Board.findOne({_id:req.params.id}),
+        Comment.find({post:req.params.id}).sort('createdAt')
+    ])
+    .then(([post, comments]) => {
+        console.log(post);
+        console.log(comments);
+        res.send({post:post, comments:comments});
+    })
+    .catch((err) => {
+        console.log(err);
+        return res.json(err);
+    })*/
     Board.findOne({ _id: req.params.id }, function (err, post) {
         if (err) console.log(err);
         res.send(post);

@@ -19,8 +19,29 @@
                 </v-alert>
             </v-card-text>
         </v-card-text>
-        <h4>Comments</h4>
-
+        <!--<h4>Comments</h4>
+        <div v-if="comments.length!==0">
+            <div v-for="comment in comments" v-bind:key="comment._id">
+                <div>
+                    <div>
+                        <div>{{comment.author.username}}</div>
+                        <div>
+                            <div>
+                                <div>{{comment.text}}</div>
+                                <small>
+                                    (created: <span>{{comment.createdAt}}</span>)
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="flag">
+            <div>
+                <textarea name="text" rows="2">{{commentForm.form.text}}</textarea>
+            </div>
+        </div>-->
     </div>
 </template>
 
@@ -31,13 +52,14 @@ export default {
         this.$http.get(`/api/board/view/${id}`)//해당 id의 게시글 가져오기
         .then((res) => {
             this.post = res.data;
+            //this.comments = res.data.comments;
             this.$http.get('/api/look/email')//지금 현재 이메일가져오기
             .then((res) => {
                 this.email = res.data;
+                if(this.email != undefined)this.flag = true;
                 if(this.email === this.post.auth) this.edit = true;
-                else this.edit = false;
+                else if(this.email !== this.post.auth)this.edit = false;
             });
-            //this.$http.get('/api/')
         });
     },
     data(){
@@ -45,7 +67,9 @@ export default {
             post : '',
             email: '',
             edit: '',
+            text: '',
             del: false,
+            flag: false,
             comments: []
         }
     },
