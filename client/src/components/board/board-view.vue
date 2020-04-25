@@ -4,7 +4,7 @@
         <span v-if="post.category==='qu'">질문</span>
         <br/>
         <span>제목: {{post.title}}</span><br/>
-        <span>작성자: {{post.auth}}<span>&nbsp;&nbsp;<span>날짜: {{post.date}}</span><br/>
+        <span>작성자: {{post.auth}}</span>&nbsp;&nbsp;<span>날짜: {{post.date}}</span><br/>
         <span>내용: {{post.content}}</span><br/>
         <button class="btn" v-if="edit" >
             <router-link :to="{ path:'/board/edit/'+post._id}">EDIT</router-link>
